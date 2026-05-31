@@ -1,0 +1,34 @@
+rules_version = '2';
+
+// Security model
+// --------------
+// All WRITES are server-only (Cloud Functions via firebase-admin, which bypasses
+// these rules). Clients never write.
+//
+// Clients authenticate anonymously (Firebase Anonymous Auth). The server binds
+// each webhook to the creator's anonymous uid (`ownerUid`). A client may ONLY
+// `get` the single webhook document it owns — identified by id — to drive the
+// live feed:
+//   * NO `list`/queries: a client cannot enumerate or search the `webhooks`
+//     collection; it can only fetch a document whose id it already owns.
+//   * NO access to the `requests` subcollection: full captured payloads
+//     (bodies, headers, IPs) are served only via the cookie-authenticated API,
+//     never through client-side Firestore.
+//   * NO access to `sessions` or anything else.
+// The owner check (`request.auth.uid == resource.data.ownerUid`) guarantees a
+// client can never read another user's webhook, even knowing its token.
+service cloud.firestore {
+  match /databases/{database}/documents {
+    match /webhooks/{token} {
+      allow get: if request.auth != null
+                 && request.auth.uid == resource.data.ownerUid;
+      allow list, write: if false;
+    }
+
+    // Everything else (the `requests` subcollection, `sessions`, any other
+    // path) is denied to all clients.
+    match /{document=**} {
+      allow read, write: if false;
+    }
+  }
+}
