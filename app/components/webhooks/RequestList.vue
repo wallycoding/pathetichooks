@@ -100,12 +100,16 @@ async function removeOne(id: string) {
 
       <ul v-else class="divide-y divide-border/50">
         <li v-for="req in filteredRequests" :key="req.id">
-          <button
+          <div
             class="group relative flex w-full cursor-pointer items-start gap-3 px-3 py-2.5 text-left transition-colors hover:bg-accent/40"
             :class="{
               'bg-accent/55': store.selectedRequestId === req.id,
             }"
+            role="button"
+            tabindex="0"
             @click="store.selectRequest(req.id)"
+            @keydown.enter="store.selectRequest(req.id)"
+            @keydown.space.prevent="store.selectRequest(req.id)"
           >
             <div
               v-if="store.selectedRequestId === req.id"
@@ -136,7 +140,7 @@ async function removeOne(id: string) {
             >
               <X class="size-3.5" />
             </button>
-          </button>
+          </div>
         </li>
       </ul>
     </div>

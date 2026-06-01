@@ -2,7 +2,7 @@
 import { Languages, Check } from "lucide-vue-next";
 import type { LocaleCode } from "@/locales";
 
-const { availableLocales, currentLocale, setLocale, t } = useI18n();
+const { availableLocales, setLocale, t } = useI18n();
 
 function pick(code: LocaleCode) {
   setLocale(code);
@@ -11,23 +11,17 @@ function pick(code: LocaleCode) {
 
 <template>
   <DropdownMenu>
-    <Tooltip>
-      <TooltipTrigger as-child>
-        <DropdownMenuTrigger as-child>
-          <Button
-            variant="ghost"
-            size="icon-sm"
-            class="gap-1.5"
-            :aria-label="t('header.language')"
-          >
-            <Languages class="size-4" />
-          </Button>
-        </DropdownMenuTrigger>
-      </TooltipTrigger>
-      <TooltipContent>
-        {{ t("header.language") }}
-      </TooltipContent>
-    </Tooltip>
+    <DropdownMenuTrigger as-child>
+      <Button
+        variant="ghost"
+        size="icon-sm"
+        class="gap-1.5"
+        :aria-label="t('header.language')"
+        :title="t('header.language')"
+      >
+        <Languages class="size-4" />
+      </Button>
+    </DropdownMenuTrigger>
     <DropdownMenuContent align="end" class="min-w-[180px]">
       <DropdownMenuLabel class="text-[10px] uppercase tracking-wider text-muted-foreground">
         {{ t("header.language") }}

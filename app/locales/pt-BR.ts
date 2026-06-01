@@ -1,4 +1,4 @@
-export default {
+const ptBR = {
   app: {
     title: "Pathetic Hooks",
     tagline: "inspetor de webhooks",
@@ -6,7 +6,6 @@ export default {
   },
   header: {
     session: "sessão",
-    docs: "Documentação",
     github: "GitHub",
     language: "Idioma",
   },
@@ -144,3 +143,15 @@ export default {
     "request.not_found": "Requisição não encontrada.",
   },
 } as const;
+
+// pt-BR is the canonical locale: its key structure is the contract every other
+// locale must satisfy. DeepStringify loosens the `as const` literal types to
+// plain `string` so translations can supply their own values while TypeScript
+// still enforces that no key is missing or extra.
+type DeepStringify<T> = {
+  [K in keyof T]: T[K] extends string ? string : DeepStringify<T[K]>;
+};
+
+export type Messages = DeepStringify<typeof ptBR>;
+
+export default ptBR;

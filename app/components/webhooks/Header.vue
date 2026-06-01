@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { Webhook, Github, BookOpen } from "lucide-vue-next";
+import { Webhook, Github } from "lucide-vue-next";
 
 const store = useWebhooksStore();
 const { t } = useI18n();
@@ -59,19 +59,11 @@ const pct = computed(() =>
         <WebhooksLocaleSwitcher />
         <Tooltip>
           <TooltipTrigger as-child>
-            <Button variant="ghost" size="icon-sm">
-              <BookOpen class="size-4" />
-            </Button>
-          </TooltipTrigger>
-          <TooltipContent>{{ t("header.docs") }}</TooltipContent>
-        </Tooltip>
-        <Tooltip>
-          <TooltipTrigger as-child>
             <Button
               variant="ghost"
               size="icon-sm"
               as="a"
-              href="https://github.com"
+              href="https://github.com/wallycoding/pathetichooks"
               target="_blank"
               rel="noopener"
             >

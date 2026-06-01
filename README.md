@@ -97,8 +97,11 @@ O deploy vai para o Firebase Hosting + Cloud Functions (gen2). O script faz o bu
 Nuxt, ajusta o output para o runtime do Firebase e publica regras, índices, função e hosting:
 
 ```bash
-pnpm deploy
+pnpm run deploy
 ```
+
+> Use `pnpm run deploy` (e não `pnpm deploy`) — o pnpm reserva `deploy` para um
+> comando interno de workspace, então a forma sem `run` não executa este script.
 
 > É necessário ter o [Firebase CLI](https://firebase.google.com/docs/cli) instalado e
 > autenticado, além de acesso ao projeto Firebase configurado em `.firebaserc`.
